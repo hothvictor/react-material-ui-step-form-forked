@@ -14,81 +14,75 @@ import Success from "./Success";
 import { AppContext } from "../Context";
 import StepButton from "@mui/material/StepButton";
 import SeventhStep from "./SeventhStep";
+import React from "react";
 
 const handleSteps = (step: number) => {
-  switch (step) {
-    case 0:
-      return <FirstStep />;
-    case 1:
-      return <SecondStep />;
-    case 2:
-      return <ThirdStep />;
-    case 3:
-      return <FourthStep />;
-    case 4:
-      return <FifthStep />;
-    case 5:
-      return <SixthStep />;
-    case 6:
-      return <SeventhStep />;
-    default:
-      throw new Error("Unknown step");
-  }
+    switch (step) {
+        case 0:
+            return <FirstStep />;
+        case 1:
+            return <SecondStep />;
+        case 2:
+            return <ThirdStep />;
+        case 3:
+            return <FourthStep />;
+        case 4:
+            return <FifthStep />;
+        case 5:
+            return <SixthStep />;
+        case 6:
+            return <SeventhStep />;
+        default:
+            throw new Error("Unknown step");
+    }
 };
 
 export default function StepForm() {
-  const { activeStep, setActiveStep, steps, formValues } =
-    useContext(AppContext);
+    const { activeStep, setActiveStep, steps, formValues } = useContext(AppContext);
 
-  const { bookingModule } = formValues;
+    const { bookingModule } = formValues;
 
-  return (
-    <>
-      {activeStep === steps.length ? (
-        <Success />
-      ) : (
+    return (
         <>
-          <Box sx={{ my: 5 }}>
-            <Typography variant="h4" align="center">
-              Overall Mapping
-            </Typography>
-            <Typography variant="subtitle2" align="center" sx={{ mt: 2 }}>
-              ..
-            </Typography>
-          </Box>
-          <Stepper activeStep={activeStep} sx={{ py: 3 }} alternativeLabel>
-            {steps.map((label, index) => {
-              if (bookingModule.value === "Auto") {
-                return (
-                  <Step key={label}>
-                    <StepButton
-                      color="inherit"
-                      onClick={() => setActiveStep(index)}
-                    >
-                      <StepLabel>{label}</StepLabel>
-                    </StepButton>
-                  </Step>
-                );
-              } else {
-                return (
-                  index < 6 && (
-                    <Step key={label}>
-                      <StepButton
-                        color="inherit"
-                        onClick={() => setActiveStep(index)}
-                      >
-                        <StepLabel>{label}</StepLabel>
-                      </StepButton>
-                    </Step>
-                  )
-                );
-              }
-            })}
-          </Stepper>
+            {activeStep === steps.length ? (
+                <Success />
+            ) : (
+                <>
+                    <Box sx={{ my: 5 }}>
+                        <Typography variant="h4" align="center">
+                            Overall Mapping
+                        </Typography>
+                        <Typography variant="subtitle2" align="center" sx={{ mt: 2 }}>
+                            ..
+                        </Typography>
+                    </Box>
+                    <Stepper activeStep={activeStep} sx={{ py: 3 }} alternativeLabel>
+                        {steps.map((label, index) => {
+                            if (bookingModule.value === "Auto") {
+                                return (
+                                    <Step key={index}>
+                                        <StepButton color="inherit" onClick={() => setActiveStep(index)}>
+                                            <StepLabel>{label}</StepLabel>
+                                        </StepButton>
+                                    </Step>
+                                );
+                            } else {
+                                return (
+                                    index < 6 && (
+                                        <Step key={index}>
+                                            <StepButton color="inherit" onClick={() => setActiveStep(index)}>
+                                                <StepLabel>{label}</StepLabel>
+                                            </StepButton>
+                                        </Step>
+                                    )
+                                );
+                            }
+                        })}
+                    </Stepper>
 
-          {handleSteps(activeStep)}
+                    {handleSteps(activeStep)}
+                </>
+            )}
         </>
-      )}
-    </>
-  );
+    );
 }

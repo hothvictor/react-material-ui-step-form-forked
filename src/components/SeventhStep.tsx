@@ -9,116 +9,107 @@ import { AppContext } from "../Context";
 import OverallInfo from "./OverallInfo";
 
 interface WeekdayCutOff {
-  weekday: string;
-  fromTime: string;
-  toTime: string;
+    weekday: string;
+    fromTime: string;
+    toTime: string;
 }
 
 const initialCutOffs: WeekdayCutOff[] = weekdays.map((weekday) => ({
-  weekday,
-  fromTime: "",
-  toTime: "",
+    weekday,
+    fromTime: "",
+    toTime: ""
 }));
 
 export default function SeventhStep() {
-  const { formValues, handleBack, handleNext } = useContext(AppContext);
-  const { bookingModule, exclusionCriteria } = formValues;
+    const { handleBack, handleNext } = useContext(AppContext);
 
-  const [cutOffTimes, setCutOffTimes] =
-    useState<WeekdayCutOff[]>(initialCutOffs);
+    const [cutOffTimes, setCutOffTimes] = useState<WeekdayCutOff[]>(initialCutOffs);
 
-  const handleTimeChange =
-    (index: number, field: keyof WeekdayCutOff) =>
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const updatedCutOffTimes = [...cutOffTimes];
-      updatedCutOffTimes[index] = {
-        ...updatedCutOffTimes[index],
-        [field]: event.target.value,
-      };
-      setCutOffTimes(updatedCutOffTimes);
-    };
+    const handleTimeChange =
+        (index: number, field: keyof WeekdayCutOff) => (event: React.ChangeEvent<HTMLInputElement>) => {
+            const updatedCutOffTimes = [...cutOffTimes];
+            updatedCutOffTimes[index] = {
+                ...updatedCutOffTimes[index],
+                [field]: event.target.value
+            };
+            setCutOffTimes(updatedCutOffTimes);
+        };
 
-  return (
-    <>
-      <OverallInfo />
-      <Grid
-        container
-        spacing={2}
-        pt={2}
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Grid item xs={6}>
-          <table
-            style={{
-              borderCollapse: "collapse",
-              width: "100%",
-              textAlign: "center",
-            }}
-          >
-            <thead>
-              <tr>
-                <th style={{ float: "left" }}></th>
-                <th>From</th>
-                <th>To</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cutOffTimes.map((cutOff, index) => (
-                <tr key={cutOff.weekday}>
-                  <td style={{ border: "none", float: "left", marginTop: 8 }}>
-                    <strong>{cutOff.weekday}</strong>
-                  </td>
-                  <td style={{ border: "none" }}>
-                    <TextField
-                      select
-                      // label="From"
-                      value={cutOff.fromTime}
-                      onChange={handleTimeChange(index, "fromTime")}
-                      variant="outlined"
-                      size="small"
-                      style={{ width: "100px" }}
+    return (
+        <>
+            <OverallInfo />
+            <Grid container spacing={2} pt={2} justifyContent="center" alignItems="center">
+                <Grid item xs={6}>
+                    <table
+                        style={{
+                            borderCollapse: "collapse",
+                            width: "100%",
+                            textAlign: "center"
+                        }}
                     >
-                      {timeSlots.map((timeSlot) => (
-                        <MenuItem key={timeSlot} value={timeSlot}>
-                          {timeSlot}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </td>
-                  <td style={{ border: "none" }}>
-                    <TextField
-                      select
-                      // label="To"
-                      value={cutOff.toTime}
-                      onChange={handleTimeChange(index, "toTime")}
-                      variant="outlined"
-                      size="small"
-                      style={{ width: "100px" }}
-                    >
-                      {timeSlots.map((timeSlot) => (
-                        <MenuItem key={timeSlot} value={timeSlot}>
-                          {timeSlot}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </Grid>
-      </Grid>
+                        <thead>
+                            <tr>
+                                <th style={{ float: "left" }}></th>
+                                <th>From</th>
+                                <th>To</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {cutOffTimes.map((cutOff, index) => (
+                                <tr key={cutOff.weekday}>
+                                    <td style={{ border: "none", float: "left", marginTop: 8 }}>
+                                        <strong>{cutOff.weekday}</strong>
+                                    </td>
+                                    <td style={{ border: "none" }}>
+                                        <TextField
+                                            select
+                                            // label="From"
+                                            value={cutOff.fromTime}
+                                            onChange={handleTimeChange(index, "fromTime")}
+                                            variant="outlined"
+                                            size="small"
+                                            style={{ width: "100px" }}
+                                        >
+                                            {timeSlots.map((timeSlot) => (
+                                                <MenuItem key={timeSlot} value={timeSlot}>
+                                                    {timeSlot}
+                                                </MenuItem>
+                                            ))}
+                                        </TextField>
+                                    </td>
+                                    <td style={{ border: "none" }}>
+                                        <TextField
+                                            select
+                                            // label="To"
+                                            value={cutOff.toTime}
+                                            onChange={handleTimeChange(index, "toTime")}
+                                            variant="outlined"
+                                            size="small"
+                                            style={{ width: "100px" }}
+                                        >
+                                            {timeSlots.map((timeSlot) => (
+                                                <MenuItem key={timeSlot} value={timeSlot}>
+                                                    {timeSlot}
+                                                </MenuItem>
+                                            ))}
+                                        </TextField>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </Grid>
+            </Grid>
 
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
-        <Button onClick={handleBack} sx={{ mr: 1 }}>
-          Back
-        </Button>
+            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
+                <Button onClick={handleBack} sx={{ mr: 1 }}>
+                    Back
+                </Button>
 
-        <Button variant="contained" color="primary" onClick={handleNext}>
-          Next
-        </Button>
-      </Box>
-    </>
-  );
+                <Button variant="contained" color="primary" onClick={handleNext}>
+                    Next
+                </Button>
+            </Box>
+        </>
+    );
 }

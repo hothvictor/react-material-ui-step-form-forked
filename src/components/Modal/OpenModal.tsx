@@ -1,5 +1,5 @@
+import { Box, Modal, Typography } from "@mui/material";
 import React, { ReactNode, useContext } from "react";
-import { Box, Button, Divider, Modal, Typography } from "@mui/material";
 import { AppContext } from "../../Context";
 
 interface OpenModalProps {
